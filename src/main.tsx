@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css'
+import SellerSetup from './pages/SellerSetup'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/list/",
     element: <List />,
+  },
+  {
+    path: "/seller-setup/",
+    element: <SellerSetup />,
   },
 ]);
 
