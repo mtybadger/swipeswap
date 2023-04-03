@@ -1,9 +1,11 @@
-import { auth, db } from './firebase';
+import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import SignOut from './SignOutButton';
+import SignOut from '../SignOutButton';
 import { collection, getDocs, limit, query, where} from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { User } from './pages/SellerSetup'
+import { useEffect, useState, createContext } from 'react';
+import { User } from './SellerSetup'
+
+
 
 function SellerDashboard() {
   
