@@ -13,8 +13,8 @@ const firebaseConfig = {
   projectId: "swipeswap-c9db4",
   storageBucket: "swipeswap-c9db4.appspot.com",
   messagingSenderId: "174689518537",
-  appId: "1:174689518537:web:a94b8d49e9a944101f5e18",
-  measurementId: "G-6B746465RP"
+  appId: "1:174689518537:web:1d56bf92aafea7c11f5e18",
+  measurementId: "G-VN0HSXBK7X"
 };
 
 // Initialize Firebase

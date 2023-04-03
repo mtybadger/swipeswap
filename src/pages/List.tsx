@@ -1,14 +1,11 @@
 import { useAuthState } from "react-firebase-hooks/auth"
 import FormComponent from "../components/FormComponent"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { auth, db } from "../firebase"
 import { collection, addDoc, Timestamp } from "firebase/firestore"; 
+import { User } from "../functions/User";
 import { useNavigate } from "react-router-dom";
 
-export enum DiningHall {
-  Maseeh = "Maseeh",
-  NewVassar = "New Vassar"
-}
 
 export interface Listing {
   uid: string,
@@ -44,20 +41,7 @@ function List() {
   const [firebaseUser] = useAuthState(auth);
   const [errorMessage, setErrorMsg] = useState('')
   async function submit(){
-    if([swipes, price, location, timestamp].every((value) => value != null)){
-      setErrorMsg('')
-      const user: User = { uid: firebaseUser!.uid, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '), venmo: venmo, quote: quote, victoryQuote: victoryQuote}
-      console.log(user)
-      try {
-        const docRef = await addDoc(collection(db, "users"), user);
-        console.log("Document written with ID: ", docRef.id);
-        navigate('/sell')
-      } catch (e) {
-        setErrorMsg("Error adding document: " + e);
-      }
-    } else {
-      setErrorMsg('One or more fields are empty. Please try again.')
-    }
+    
   }
 
   return (

@@ -4,15 +4,7 @@ import { useState } from "react"
 import { auth, db } from "../firebase"
 import { collection, addDoc } from "firebase/firestore"; 
 import { useNavigate } from "react-router-dom";
-
-export interface User {
-  uid: string
-  firstName: string,
-  lastName: string,
-  venmo: string,
-  quote: string,
-  victoryQuote: string
-}
+import { User } from "../functions/User";
 
 function SellerSetup() {
 
@@ -27,7 +19,7 @@ function SellerSetup() {
   const [errorMessage, setErrorMsg] = useState('')
 
   async function submit(){
-    if([name, venmo, quote, victoryQuote].every((value) => value != null)){
+    if([name, venmo, quote, victoryQuote].every((value) => value != '')){
       setErrorMsg('')
       const user: User = { uid: firebaseUser!.uid, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '), venmo: venmo, quote: quote, victoryQuote: victoryQuote}
       console.log(user)
