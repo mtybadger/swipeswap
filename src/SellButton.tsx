@@ -1,9 +1,12 @@
 import { auth } from './firebase';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
+import { useNavigate } from "react-router-dom";
+
 function SellButton() {
 
   const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
   
   function signin(){
     signInWithPopup(auth, provider)
@@ -15,7 +18,7 @@ function SellButton() {
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
-      console.log('banger')
+      navigate("/sell");
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
@@ -29,7 +32,7 @@ function SellButton() {
   }
   
   return (
-    <button onClick={signin} className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 mt-4 rounded-md">Sell</button>
+    <button onClick={signin} className="bg-green-500 font-bold hover:bg-blue-600 text-white px-2 py-1 mt-4 rounded-md">Sell</button>
   )
 }
 
