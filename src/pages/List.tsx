@@ -5,14 +5,16 @@ import { auth, db } from "../firebase"
 import { collection, addDoc, Timestamp } from "firebase/firestore"; 
 import { User } from "../functions/User";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../components/AuthWrapper";
 
 
 export interface Listing {
   uid: string,
   nickname: string,
+  location: string,
   swipes: number,
   price: number,
-  timestamp: Timestamp,
+  expiry: number,
 }
 
 function List() {
@@ -23,25 +25,39 @@ function List() {
   const [price, setPrice] = useState('')
   const [location, setLocation] = useState('')
   const [time, setTime] = useState('')
-  const [timestamp, setTimestamp] = useState<Timestamp>()
 
-  useEffect(() => {
-    const [hours, minutes] = time.split(':');
+  const currentUser = useContext(UserContext)
 
-    const date = new Date();
-    date.setHours(Number(hours));
-    date.setMinutes(Number(minutes));
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-
-    const timestamp = Timestamp.fromDate(date);
-    setTimestamp(timestamp)
-  }, [time])
-
-  const [firebaseUser] = useAuthState(auth);
   const [errorMessage, setErrorMsg] = useState('')
   async function submit(){
-    
+    if([swipes, price, location, time].every((value) => value != '')){
+      setErrorMsg('')
+
+      const [hours, minutes] = time.split(':');
+      const date = new Date();
+      date.setHours(Number(hours));
+      date.setMinutes(Number(minutes));
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+
+      const timestamp = Timestamp.fromDate(date);
+      let nickname = currentUser!.firstName
+      if(currentUser?.lastName){
+        nickname = currentUser!.firstName + ' ' + currentUser?.lastName.charAt(0) + '.'
+      }
+
+      const listing: Listing = { uid: currentUser!.uid, nickname: nickname, location: location, swipes: swipes as any, price: price as any, expiry: timestamp.seconds}
+      console.log(listing)
+      try {
+        const docRef = await addDoc(collection(db, 'listings'), listing);
+        console.log("Document written with ID: ", docRef.id);
+        navigate('/sell')
+      } catch (e) {
+        setErrorMsg("Error adding document: " + e);
+      }
+    } else {
+      setErrorMsg('One or more fields are empty. Please try again.')
+    }
   }
 
   return (

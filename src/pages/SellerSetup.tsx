@@ -2,7 +2,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import FormComponent from "../components/FormComponent"
 import { useState } from "react"
 import { auth, db } from "../firebase"
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc } from "firebase/firestore"; 
 import { useNavigate } from "react-router-dom";
 import { User } from "../functions/User";
 
@@ -24,8 +24,8 @@ function SellerSetup() {
       const user: User = { uid: firebaseUser!.uid, firstName: name.split(' ')[0], lastName: name.split(' ').slice(1).join(' '), venmo: venmo, quote: quote, victoryQuote: victoryQuote}
       console.log(user)
       try {
-        const docRef = await addDoc(collection(db, "users"), user);
-        console.log("Document written with ID: ", docRef.id);
+        const docRef = await setDoc(doc(db, 'users', user.uid), user);
+        console.log("Document written with ID: ", user.uid);
         navigate('/sell')
       } catch (e) {
         setErrorMsg("Error adding document: " + e);
