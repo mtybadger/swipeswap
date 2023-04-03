@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import Home from './pages/Home'
-import SellerDashboard from './SellerDashboard'
+import List from './pages/List'
+import SellerDashboard from './pages/SellerDashboard'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/sell/",
     element: <SellerDashboard />,
+  },
+  {
+    path: "/list/",
+    element: <List />,
   },
 ]);
 
