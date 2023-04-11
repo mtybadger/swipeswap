@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth, db } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
+import LinkButton from "./LinkButton";
+import SignOut from "./SignOutButton";
 
 interface LayoutProps {
     children: ReactNode
@@ -45,13 +47,13 @@ export default function LayoutWrapper( { children, type} : LayoutProps ) {
         <div className="w-full px-4 my-4">
             <div className="flex flex-row justify-between items-center w-full">
             <Icon height={36} color="#18181B" icon="carbon:help" />
-            {type == 'buyer' ? <span> <p>{currentUser?.firstName}</p> <SellButton signIn={() => signIn(() => navigate('/sell'))} /></span> : <div>buy button</div>}
+            {type == 'buyer' ? <span> <p className="inline mx-4 text-xl pb-4">{currentUser?.firstName}</p> <SellButton signIn={() => signIn(() => navigate('/sell'))} /></span> : <div><LinkButton target='/' >Buy</LinkButton></div>}
             
             </div>
             <div>
                 {children}
             </div>
-            {type == 'seller' && currentUser && <div className="my-4 text-center underline">Sign Out</div>}
+            {type == 'seller' && currentUser && <div className="my-4 text-center underline"><SignOut /></div>}
             <div className="my-4 text-center">made at 3am by ppl</div>
         </div>
     )

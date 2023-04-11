@@ -15,6 +15,7 @@ export interface Listing {
   swipes: number,
   price: number,
   expiry: number,
+  expiryTimestamp: Timestamp
 }
 
 function List() {
@@ -46,7 +47,16 @@ function List() {
         nickname = currentUser!.firstName + ' ' + currentUser?.lastName.charAt(0) + '.'
       }
 
-      const listing: Listing = { uid: currentUser!.uid, nickname: nickname, location: location, swipes: swipes as any, price: price as any, expiry: timestamp.seconds}
+      const swipesCleaned = parseInt(swipes)
+      const priceCleaned = parseInt(parseFloat(price).toFixed(2).replace('.',''))
+
+      if(isNaN(swipesCleaned) || isNaN(priceCleaned) || timestamp < Timestamp.now()){
+        setErrorMsg('One or more fields contain bad data. Try again.')
+        return 
+      }
+
+
+      const listing: Listing = { uid: currentUser!.uid, nickname: nickname, location: location, swipes: swipesCleaned, price: priceCleaned, expiry: timestamp.seconds, expiryTimestamp: timestamp}
       console.log(listing)
       try {
         const docRef = await addDoc(collection(db, 'listings'), listing);

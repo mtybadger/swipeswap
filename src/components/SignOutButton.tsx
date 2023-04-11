@@ -17,7 +17,7 @@ const SignOut = () => {
     return <p>Loading...</p>;
   }
   return (
-      <button className='bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 mt-4 rounded-md'
+      <button className='mt-2 px-4 py-1 bg-zinc-100 border-2 border-b-[5px] border-zinc-900 rounded-lg text-zinc-900 font-medium text-2xl'
         onClick={async () => {
           const success = await signOut();
           if (success) {
@@ -25,7 +25,7 @@ const SignOut = () => {
           }
         }}
       >
-        Sign out
+        Sign Out
       </button>
   );
 };

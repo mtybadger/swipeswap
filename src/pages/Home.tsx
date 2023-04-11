@@ -1,7 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DiningHallCard from "../components/DiningCard"
 import LayoutWrapper from "../components/LayoutWrapper"
 import RangeSlider from "../components/RangeSlider"
+import { query, collection, where } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useCollectionDataOnce } from "react-firebase-hooks/firestore"
+import { Listing } from "../functions/Listing";
 
 const fakeListings = [
     {
@@ -16,7 +20,19 @@ const fakeListings = [
     }
 ]
 
+
+
 function Home() {
+
+    const [now, setNow] = useState(10000000000000)
+
+  useEffect(() => {
+    // Update the document title using the browser API
+    setNow(Math.round(Date.now() / 1000))
+  }, []);
+
+const [maseehData, loading, error, snapshot] = useCollectionDataOnce(query(collection(db, "listings"), (where('location', '==', "Maseeh"), where("expiry", ">", now))))
+
 
     const [price, setPrice] = useState(12.50)
 
@@ -31,15 +47,8 @@ function Home() {
                 name={"Maseeh D"}
                 icon={"noto:castle"}
                 numSwipes={27}
-                listings={fakeListings}
+                listings={maseehData as Listing[]}
                 colors={{primaryBackground: 'bg-[#5182FF]', primaryBorder: 'border-[#5182FF]', primaryDarkBorder: 'border-[#2B66FF]'}}
-            />
-            <DiningHallCard
-                name={"New Vassar"}
-                icon={"emojione-v1:houses"}
-                numSwipes={14}
-                listings={fakeListings}
-                colors={{primaryBackground: 'bg-[#FF7B1C]', primaryBorder: 'border-[#FF7B1C]', primaryDarkBorder: 'border-[#DE6914]'}}
             />
         </div>
     </LayoutWrapper>

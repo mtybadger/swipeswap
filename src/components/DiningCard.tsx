@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import { Listing } from '../functions/Listing';
 
 interface DiningHallCardProps {
     name: string
@@ -6,12 +7,6 @@ interface DiningHallCardProps {
     numSwipes: number
     listings: Array<Listing>
     colors: ColorTheme
-}
-
-interface Listing {
-    name: string
-    price: number
-    numSwipes: number
 }
 
 interface ColorTheme {
@@ -33,16 +28,16 @@ export default function DiningHallCard( {name, icon, numSwipes, listings, colors
             </div>
             <div className="mt-4">
                 {
-                    listings.map(listing => (
+                    listings?.map(listing => (
                         <div className="flex flex-row items-center mb-3">
                             <div className="flex justify-center items-center mr-2 rounded-full bg-zinc-200 h-6 w-6">
-                                <div className="text-sm font-medium text-zinc-700">{listing.name[0]}</div>
+                                <div className="text-sm font-medium text-zinc-700">{listing.nickname[0]}</div>
                             </div>
-                            <div className="text-md font-medium text-zinc-700">{listing.name}</div>
+                            <div className="text-md font-medium text-zinc-700">{listing.nickname}</div>
                             <div className="text-md text-zinc-500 px-2">∗</div>
-                            <div className="text-md text-zinc-500">{listing.price}</div>
+                            <div className="text-md text-zinc-500">${listing.price}</div>
                             <div className="text-md text-zinc-500 px-2">∗</div>
-                            <div className="text-md text-zinc-500">{listing.numSwipes} swipes</div>
+                            <div className="text-md text-zinc-500">{listing.swipes} swipes</div>
                         </div>
                     ))
                 }
